@@ -1,0 +1,6 @@
+# Files Containing Personal Financial Info #
+*.txt
+*.csv
+*.xls
+*.xlsx
+*.html
