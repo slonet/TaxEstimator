@@ -87,7 +87,7 @@ def get_stock_grants():
 
 	grants = []
 
-	# iterate through each grant file provided and merge the grant data into one dictionary
+	# iterate through each grant file provided and merge the grant data into one list
 	for file_obj in csv_files:
 		grants += parse_grant_csv(file_obj)
 
@@ -95,9 +95,25 @@ def get_stock_grants():
 
 
 def parse_config_file(config_file):
+
+	with config_file:
+		csv_reader = csv.reader(config_file, delimiter=',')
+
+		for row in csv_reader:
+			for item in row:
+				if item.count("### Regular Income"): # found the regular income header
+					#TODO: finish the config file parser
+
 	return config
 
-grants = get_stock_grants()
 
-for grant in grants:
-	print(grant)
+def get_config():
+
+	config_file = open_config_file()
+	config = parse_config_file(config_file)
+
+	return config
+
+config = get_config()
+print(config)
+
