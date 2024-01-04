@@ -43,12 +43,49 @@ def open_config_file():
 	return config_file
 
 
-def parse_stock_certs(stock_cert_files):
-	return grant_data
+"""
+Extracts the grant data from a grant CSV file row after being converted to a list
+row 0 = grant_id
+row 3 = cost_basis
+row 5 = vesting_date
+row 7 = shares_qty
+"""
+def parse_grant_csv_row(row):
+
+	grant = {
+		"grant_id"     : row[0],
+		"cost_basis"   : float(row[3].replace('$','')),
+		"vesting_date" : row[5],
+		"shares_qty"   : int(row[7].replace(',',''))
+	}
+
+	return grant
+
+
+"""
+Accepts a file object pointing to a Solium stock stock certificate summary csv
+Parses all of the available grants from the file
+Returns a dictionary containing the stock grant data
+"""
+def parse_grant_csv(grant_csv):
+
+	grants = {}
+
+	with grant_csv:
+		csv_reader = csv.reader(grant_csv, delimiter=',')
+
+		for row in csv_reader:
+			for item in row:
+				if item.count("$"): # found a row with a grant
+					grant = parse_grant_csv_row(row)
+					print(grant)
+
+	return grants
 
 
 def parse_config_file(config_file):
 	return config
 
-files = open_stock_cert_files()
-print(files)
+
+file = open_stock_cert_files()
+grants = parse_grant_csv(file[0])
