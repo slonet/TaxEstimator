@@ -1,4 +1,5 @@
 import csv
+from datetime import datetime
 
 """
 Prompts the user for the paths to each Solium stock certificate file.
@@ -45,40 +46,50 @@ def open_config_file():
 
 """
 Extracts the grant data from a grant CSV file row after being converted to a list
-row 0 = grant_id
-row 3 = cost_basis
-row 5 = vesting_date
-row 7 = shares_qty
+The date is represented as a datetime object so math can easily be done
 """
 def parse_grant_csv_row(row):
 
 	grant = {
-		"grant_id"     : row[0],
-		"cost_basis"   : float(row[3].replace('$','')),
-		"vesting_date" : row[5],
-		"shares_qty"   : int(row[7].replace(',',''))
+		"grant_id"       : row[0],
+		"cost_basis"     : float(row[3].replace('$','')),
+		"vesting_date"   : datetime.strptime(row[5], '%d-%b-%Y'),
+		"shares_qty"     : int(row[7].replace(',','')),
+		"shares_to_sell" : 0 # default value
 	}
 
-	return grant
+	return [grant]
 
 
 """
 Accepts a file object pointing to a Solium stock stock certificate summary csv
 Parses all of the available grants from the file
-Returns a dictionary containing the stock grant data
+Returns a list containing the stock grant data
 """
-def parse_grant_csv(grant_csv):
+def parse_grant_csv(file_obj):
 
-	grants = {}
+	grants = []
 
-	with grant_csv:
-		csv_reader = csv.reader(grant_csv, delimiter=',')
+	with file_obj:
+		csv_reader = csv.reader(file_obj, delimiter=',')
 
 		for row in csv_reader:
 			for item in row:
-				if item.count("$"): # found a row with a grant
-					grant = parse_grant_csv_row(row)
-					print(grant)
+				if item.count("$"): # found a row with a grant					
+					grants += parse_grant_csv_row(row)
+
+	return grants
+
+
+def get_stock_grants():
+
+	csv_files = open_stock_cert_files()
+
+	grants = []
+
+	# iterate through each grant file provided and merge the grant data into one dictionary
+	for file_obj in csv_files:
+		grants += parse_grant_csv(file_obj)
 
 	return grants
 
@@ -86,6 +97,7 @@ def parse_grant_csv(grant_csv):
 def parse_config_file(config_file):
 	return config
 
+grants = get_stock_grants()
 
-file = open_stock_cert_files()
-grants = parse_grant_csv(file[0])
+for grant in grants:
+	print(grant)
