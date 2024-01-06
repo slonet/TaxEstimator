@@ -1,36 +1,21 @@
 import csv
+import json
 from datetime import datetime
 
-"""
-Prompts the user for the paths to each Solium stock certificate file.
-Multiple files can be specified.
-A file object is returned for each that can be opened.
-Errors are printed to the terminal for any that cannot be opened.
-"""
-def open_stock_cert_files():
-	print("Enter the relative paths to each Solium stock certificate file to be parsed")
-	print("Separate the paths with \", \"")
-	file_string = input("\n> ")
+_config_data = {}
+_grant_data = {}
 
-	file_paths = file_string.split(", ")
-	files = []
 
-	for file_path in file_paths:
-		try:
-			file = open(file_path, 'r')
-			files.append(file)
-
-		except:
-			print(f"\nCould not open the file with path \"{file_path}\"")
-
-	return files
-
+#TODO: Rename methods to follow naming convention
+#TODO: Set methods private / public
+#TODO: Change config file to open with argument
 
 """
 Prompts user for the path to a single config file.
 A file object is returned or an error is printed to the terminal if the file cannot be opened.
 """
 def open_config_file():
+	
 	print("Enter the relative path to the config file")
 	file_path = input("\n> ")
 	config_file = None
@@ -48,7 +33,7 @@ def open_config_file():
 Extracts the grant data from a grant CSV file row after being converted to a list
 The date is represented as a datetime object so math can easily be done
 """
-def parse_grant_csv_row(row):
+def load_grant_csv_row(row):
 
 	grant = {
 		"grant_id"       : row[0],
@@ -66,7 +51,7 @@ Accepts a file object pointing to a Solium stock stock certificate summary csv
 Parses all of the available grants from the file
 Returns a list containing the stock grant data
 """
-def parse_grant_csv(file_obj):
+def load_grant_csv(file_obj):
 
 	grants = []
 
@@ -76,44 +61,49 @@ def parse_grant_csv(file_obj):
 		for row in csv_reader:
 			for item in row:
 				if item.count("$"): # found a row with a grant					
-					grants += parse_grant_csv_row(row)
+					grants += load_grant_csv_row(row)
 
 	return grants
 
+"""
+Loads a number of stock certificate summary CSV files and creates a dictionary of the grant lists
+Each key is named after the grantee
+"""
+def load_grants():
+	
+	global _grant_data
 
-def get_stock_grants():
+	try:
+		grant_files = _config_data["StockCertificateSummaryFiles"]
+		
+		for i, (grantee, file_path) in enumerate(grant_files.items()):
+			with open(file_path, 'r') as grant_file:
+				_grant_data[grantee] = load_grant_csv(grant_file)
 
-	csv_files = open_stock_cert_files()
-
-	grants = []
-
-	# iterate through each grant file provided and merge the grant data into one list
-	for file_obj in csv_files:
-		grants += parse_grant_csv(file_obj)
-
-	return grants
-
-
-def parse_config_file(config_file):
-
-	with config_file:
-		csv_reader = csv.reader(config_file, delimiter=',')
-
-		for row in csv_reader:
-			for item in row:
-				if item.count("### Regular Income"): # found the regular income header
-					#TODO: finish the config file parser
-
-	return config
+	except:
+		print("No grant info available. Is the config file loaded / are grant files specified?")
 
 
-def get_config():
+def get_grants():
 
-	config_file = open_config_file()
-	config = parse_config_file(config_file)
+	return _grant_data
 
-	return config
 
-config = get_config()
-print(config)
+def get_config_data():
 
+	return _config_data
+
+
+def load_config_file():
+
+	global _config_data
+
+	with open_config_file() as file_obj:
+
+		_config_data = json.loads(file_obj.read())
+
+	return 1
+
+
+load_config_file()
+load_grants()

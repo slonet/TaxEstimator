@@ -1,0 +1,103 @@
+{
+	"RegularIncome-Ciara": {
+
+		"PreTaxIncome": 136000.00,
+		"401kContributions": 22500.00,
+		"OtherIncome": 50000.00
+	},
+
+	"RegularIncome-Tyler": {
+		"PreTaxIncome": 245000.00,
+		"401kContributions": 22500.00,
+		"OtherIncome": 51000.00
+	},
+
+	"TaxFilingInfo": {
+		"TaxYear": 2024,
+		"State": "California",
+		"FilingStatus": "Married Filing Jointly",
+		"StateTaxCredits": 0.00,
+		"FederalTaxCredits": 2000.00,
+		"StateDeduction": 10404.00,
+		"FederalDeduction": 27700.00
+	},
+
+	"TaxBrackets": {
+		"StateIncomeTaxBrackets": {
+			"TaxRates": [
+				0.010,
+				0.020,
+				0.040,
+				0.060,
+				0.080,
+				0.093,
+				0.103,
+				0.113,
+				0.123
+			],
+
+			"TaxThresholds": [
+				20824.00,
+				49368.00,
+				77918.00,
+				108162.00,
+				136700.00,
+				698274.00,
+				837922.00,
+				1396542.00,
+				"All Above"
+			]
+		},
+
+		"FederalIncomeTaxBrackets": {
+			"TaxRates": [
+				0.100,
+				0.120,
+				0.220,
+				0.240,
+				0.320,
+				0.350,
+				0.370
+			],
+
+			"TaxThresholds": [
+				22000.00,
+				89450.00,
+				190750.00,
+				364200.00,
+				462500.00,
+				693750.00,
+				"All Above"
+			]
+		},
+
+		"FederalLongTermCapitalGainsTaxBrackets": {
+			"TaxRates": [
+				0.000,
+				0.150,
+				0.200
+			],
+
+			"TaxThresholds": [
+				83350.00,
+				517200.00,
+				"All Above"
+			]
+		},
+
+		"NetInvestmentIncomeTaxBrackets": {
+			"TaxRates": [
+				0.038
+			],
+
+			"TaxThresholds": [
+				250000.00
+			]
+		}
+	},
+
+	"StockCertificateSummaryFiles": {
+		"Ciara": "user_data/Ciara.csv",
+		"Tyler": "user_data/Tyler.csv"
+	}
+}
