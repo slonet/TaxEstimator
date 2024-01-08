@@ -99,5 +99,14 @@
 	"StockCertificateSummaryFiles": {
 		"Ciara": "user_data/Ciara.csv",
 		"Tyler": "user_data/Tyler.csv"
-	}
+	},
+
+	"GuaranteedShares": {
+		"Ciara": 1114,
+		"Tyler": 373
+	},
+
+	"FairMarketValue": 97.00,
+
+	"ProceedsGoal": 250000
 }
