@@ -20,9 +20,8 @@ def _total_shares(data_obj):
 
 	shares = 0
 
-	for grantee in data_obj.grant_data:
-		for grant in data_obj.grant_data[grantee]:
-			shares += grant["shares_qty"]
+	for grant in data_obj.grant_data:
+		shares += grant["shares_qty"]
 
 	return shares
 
