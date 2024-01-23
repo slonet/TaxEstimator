@@ -23,7 +23,7 @@
 	},
 
 	"TaxBrackets": {
-		"StateIncomeTaxBrackets": {
+		"StateIncomeTax": {
 			"TaxRates": [
 				0.010,
 				0.020,
@@ -49,7 +49,7 @@
 			]
 		},
 
-		"FederalIncomeTaxBrackets": {
+		"FederalIncomeTax": {
 			"TaxRates": [
 				0.100,
 				0.120,
@@ -71,7 +71,7 @@
 			]
 		},
 
-		"FederalLongTermCapitalGainsTaxBrackets": {
+		"FederalLongTermCapitalGainsTax": {
 			"TaxRates": [
 				0.000,
 				0.150,
@@ -85,7 +85,7 @@
 			]
 		},
 
-		"NetInvestmentIncomeTaxBrackets": {
+		"NetInvestmentIncomeTax": {
 			"TaxRates": [
 				0.038
 			],

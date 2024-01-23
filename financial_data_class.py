@@ -2,7 +2,7 @@ import csv
 import json
 from datetime import datetime
 
-#TODO: flesh out sale data structure
+#TODO: flesh out tax data structure
 
 """
 config_data:
@@ -17,10 +17,28 @@ class FinancialData:
 	def __init__(self, config_file_path):
 		self.config_data = self._load_config_file(config_file_path)
 		self.grant_data = self._load_grants()
-		self.sale_data = {
-			"total_qty"      : 0,
-			"total_sale_qty" : 0,
-			"total_proceeds" : 0
+		self.tax_data = {
+			"total_qty"                  : 0,
+			"total_sale_qty"             : 0,
+			"total_proceeds"             : 0.00,
+			"long_term_cap_gains"        : 0.00,
+			"short_term_cap_gains"       : 0.00,
+			
+			"total_regular_income"       : 0.00,
+			"total_taxable_income"       : 0.00,
+			
+			"state_tax_liability"        : 0.00,
+			"eff_state_tax_rate"         : 0.00,
+			"fed_tax_liability"          : 0.00,
+			"eff_fed_tax_rate"           : 0.00,
+			"fed_ltcg_tax_liability"     : 0.00,
+			"eff_fed_ltcg_tax_rate"      : 0.00,
+			"niit_liability"             : 0.00,
+			"total_tax_liability"        : 0.00,
+			"total_eff_tax_rate"         : 0.00,
+			"est_tax_witheld"            : 0.00,
+			"est_tax_to_pay"             : 0.00
+
 		}
 
 
